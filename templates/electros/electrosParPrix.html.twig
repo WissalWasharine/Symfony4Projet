@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title%} Liste des Electroménagers par prix{% endblock %}
+{% block body %}
+{{ form_start(form) }}
+<div class="form-row align-items-end" >
+<div class="col">
+ {{ form_row(form.minPrice) }}
+</div>
+<div class="col">
+ {{ form_row(form.maxPrice) }}
+</div>
+ <div class="col">
+ <div class="form-group">
+ <button type="submit" class="btn btn-success">Rechercher</button>
+ </div>
+</div>
+</div>
+{{ form_end(form) }}
+{% if electros %}
+ <table id="electros" class="table table-striped">
+ <thead>
+ <tr>
+ <th>Nom</th>
+ <th>Prix</th>
+ <th>Marque</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+ <tbody>
+ {% for electro in electros %}
+ <tr>
+ <td>{{ electro.nom }}</td>
+ <td>{{ electro.prix }}</td>
+ <td>{{ electro.marque.titre }}</td>
+ <td>
+ <a href="/electro/{{ electro.id }}" class="btn btndark">Détails</a>
+
+ <a href="/electro/edit/{{ electro.id }}" class="btn btndark">Modifier</a>
+ <a href="/electro/delete/{{ electro.id }}" class="btn btndanger"
+ onclick="return confirm('Etesvous sûr de supprimer cet article?');">Supprimer</a>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ {% else %}
+ <p>Aucun articles</p>
+ {% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+{% block title%} Liste des Electroménagers{% endblock %}
+{% block body %}
+{{ form_start(form) }}
+<div class="form-row align-items-end" >
+<div class="col">
+ {{ form_row(form.nom) }}
+</div>
+ <div class="col">
+ <div class="form-group">
+ <button type="submit" class="btn btn-success">Rechercher</button>
+ </div>
+</div>
+</div>
+{{ form_end(form) }}
+{% if electros %}
+ <table id="electros" class="table table-striped">
+ <thead>
+ <tr>
+<th>Nom</th>
+<th>Prix</th>
+<th>Marque</th>
+ <th>Actions</th>
+ </tr>
+ </thead>
+ <tbody>
+ {% for electro in electros %}
+ <tr>
+ <td>{{ electro.nom }}</td>
+  <td>{{ electro.prix }}</td>
+  <td>{{ electro.marque.titre }}</td>
+ <td>
+ <a href="/electro/{{electro.id}}" class="btn btn-dark">Détails</a>
+ {% if is_granted('ROLE_EDITOR') %} 
+<a href="/electro/edit/{{ electro.id }}" class="btn btn-dark">Modifier</a>
+<a href="/electro/delete/{{ electro.id }}" class="btn btn-danger"
+onclick="return confirm('Etes vous sûr de supprimer cet electroménager?');">Supprimer</a>
+ {% endif %}
+</td>
+ </td>
+ </tr>
+ {% endfor %}
+ </tbody>
+ </table>
+ {% else %}
+  <p>Aucun electroménager</p>
+ {% endif %}
+{% endblock %}
